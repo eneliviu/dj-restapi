@@ -7,16 +7,21 @@ from cloudinary.models import CloudinaryField
 
 
 class Profile(models.Model):
-    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    owner = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255, blank=True)
     content = models.TextField(blank=True)
-    # image = models.ImageField(
-    #     upload_to='images/', default='../tsipho0ghipyymo9gs9s'
-    # )
+    image = models.ImageField(
+        upload_to='images/', 
+        default='../v1721986382/sample.jpg'
+    )
     # '..https://res.cloudinary.com/dchoskzxj/image/upload/v1728892217/tsipho0ghipyymo9gs9s.webp'
-    image = CloudinaryField('image', default=None, blank=False)
+    # image = CloudinaryField('image', default=None, blank=False)
+
     class Meta:
         ordering = ['-created_at']
 
