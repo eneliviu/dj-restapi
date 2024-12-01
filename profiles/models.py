@@ -13,14 +13,12 @@ class Profile(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    name = models.CharField(max_length=255, blank=True)
-    content = models.TextField(blank=True)
+    name = models.CharField(max_length=255, blank=True)  # optional
+    content = models.TextField(blank=True)  # optional
     image = models.ImageField(
-        upload_to='images/', 
-        default='../v1721986382/sample.jpg'
+        upload_to='images/',
+        default='../sample'
     )
-    # '..https://res.cloudinary.com/dchoskzxj/image/upload/v1728892217/tsipho0ghipyymo9gs9s.webp'
-    # image = CloudinaryField('image', default=None, blank=False)
 
     class Meta:
         ordering = ['-created_at']

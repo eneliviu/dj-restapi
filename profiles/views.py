@@ -18,11 +18,11 @@ class ProfileList(APIView):
             profiles,
             many=True
         )  # serialize many profile instances
-        return Response(serializer.data)  # json data ready for the fronend to use
+        return Response(serializer.data)  # json data ready for the frontend to use
 
 
 class ProfileDetail(APIView):
-    serializer_class = ProfileSerializer
+    serializer_class = ProfileSerializer  # HTML form 
     
     def get_object(self, pk):
         try:
@@ -33,7 +33,7 @@ class ProfileDetail(APIView):
 
     def get(self, request, pk):
         profile = self.get_object(pk)
-        serializer = ProfileSerializer(profile)  # single profile
+        serializer = ProfileSerializer(profile)  # single profile instance
         return Response(serializer.data)
 
     def put(self, request, pk):

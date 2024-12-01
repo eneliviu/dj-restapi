@@ -8,7 +8,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Profile()
+        model = Profile
         # When extending Django model class using models.Model, 
         # the 'id' field is created automatically. If we want it to be 
         # included into response, we have to add it to the serializes's fields array
