@@ -7,6 +7,7 @@ from rest_framework.test import APITestCase
 # Create your tests here.
 class PostListViewTests(APITestCase):
     def setUp(self):
+        # create user
         User.objects.create_user(username='adam', password='pass')
 
     # Test if users can list posts present in the database.
@@ -34,3 +35,55 @@ class PostListViewTests(APITestCase):
         # Firts, make the test fail: status.HTTP_200_OK
         # Then, fix the test to make it pass
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+# Users can retrieve a post with valid ID,
+# Users can’t retrieve a post with invalid ID,
+# Users can update the posts that they own
+# Users can’t update the posts that they don't own.
+
+class PostDetailViewTests(APITestCase):
+    def setUp(self):
+        # create two users
+        adam = User.objects.create_user(username='adam', password='pass')
+        brian = User.objects.create_user(username='brian', password='pass')
+        # create a post for each user
+        Post.objects.create(
+            owner=adam,
+            title='a title', 
+            content='adams content'
+        )
+        Post.objects.create(
+            owner=brian,
+            title='a title',
+            content='brians conent'
+        )
+
+    def test_can_retrieve_post_using_valid_id(self):
+        response = self.client.get('/posts/1/')  # retrieve post
+        print(response.status_code)
+        self.assertEqual(response.data['title'], 'a title')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_cant_retrieve_post_using_invalid_id(self):
+        response = self.client.get('/posts/999/')  # retrieve post
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+    
+    def test_user_can_update_own_post(self):
+        self.client.login(username='adam', password='pass')
+        # send a put request to  a url with post’s ID
+        response = self.client.put('/posts/1/', {'title': 'a new title'})
+        # fetch that post  from the database by ID
+        post = Post.objects.filter(pk=1).first()
+        # test if the post change has been persisted
+        self.assertEqual(post.title, 'a new title')
+        # make sure the 200 OK code is sent to the response
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_user_cant_update_another_users_post(self):
+        self.client.login(username='adam', password='pass')
+        # send a put request to a url with post’s ID of another user (Brian's ID=2)
+        response = self.client.put('/posts/2/', {'title': 'a new title'})
+        # make sure the 200 OK code is sent to the response
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
