@@ -30,8 +30,8 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        # When extending Django model class using models.Model, 
-        # the 'id' field is created automatically. If we want it to be 
+        # When extending Django model class using models.Model,
+        # the 'id' field is created automatically. If we want it to be
         # included into response, we have to add it to the serializes's fields array
         fields = [
            'id', 'owner', 'is_owner', 'profile_id',
