@@ -4,7 +4,7 @@ from posts.models import Post
 
 
 # Create your models here.
-class Likes(models.Model):
+class Like(models.Model):
     """
     Like model, related to 'owner' and 'post'.
     'owner' is a User instance and 'post' is a Post instance.
@@ -29,4 +29,4 @@ class Likes(models.Model):
         unique_together = ['owner', 'post']
 
     def __str__(self):
-        f"{self.owner} {self.post}"
+        f'{self.owner} {self.post}'

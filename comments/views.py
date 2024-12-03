@@ -10,10 +10,12 @@ class CommentList(generics.ListCreateAPIView):
     Extending the List APIView : Don't need to implement GET
     Extending the Create APIView : Don't need to implement POST
     '''
-    serializer_class = CommentSerializer
+    # Only authenicated users can post likes
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = CommentSerializer
     queryset = Comment.objects.all()
 
+    # Set the user creating the comment as its owner
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
