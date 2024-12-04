@@ -4,8 +4,6 @@ from .models import Follower
 from .serializers import FollowerSerializer
 
 
-# Create your views here.
-# FollowerList: call upon the subclass to GET and POST
 class FollowerList(generics.ListCreateAPIView):
     """
     List all followers, i.e. all instances of a user
@@ -14,14 +12,13 @@ class FollowerList(generics.ListCreateAPIView):
     Perform_create: associate the current logged in user with a follower.
     """
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    serializer_class = FollowerSerializer
     queryset = Follower.objects.all()
+    serializer_class = FollowerSerializer
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
 
-# call upon the subclass to RETRIEVE and DELETE
 class FollowerDetail(generics.RetrieveDestroyAPIView):
     """
     Retrieve a follower
@@ -29,5 +26,5 @@ class FollowerDetail(generics.RetrieveDestroyAPIView):
     Destroy a follower, i.e. unfollow someone if owner
     """
     permission_classes = [IsOwnerOrReadOnly]
-    serializer_class = FollowerSerializer
     queryset = Follower.objects.all()
+    serializer_class = FollowerSerializer

@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# Create your models here.
 class Follower(models.Model):
     """
     Follower model, related to 'owner' and 'followed'.
@@ -13,23 +12,16 @@ class Follower(models.Model):
     'unique_together' makes sure a user can't 'double follow' the same user.
     """
     owner = models.ForeignKey(
-        User,
-        related_name='following',
-        on_delete=models.CASCADE
+        User, related_name='following', on_delete=models.CASCADE
     )
     followed = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='followed'
+        User, related_name='followed', on_delete=models.CASCADE
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created_at']
         unique_together = ['owner', 'followed']
 
     def __str__(self):
-        f'{self.owner} {self.followed}'
-
+        return f'{self.owner} {self.followed}'

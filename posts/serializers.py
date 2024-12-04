@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Post
+from likes.models import Like
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -7,6 +8,19 @@ class PostSerializer(serializers.ModelSerializer):
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
+    like_id = serializers.SerializerMethodField()
+
+    def get_like_id(self, obj):
+        # check if the user is authenticated
+        user = self.context['request'].user
+        if user.is_authenticated:
+            # check if the user likes the post 
+            like = Like.objects.filter(
+                owner=user,
+                post=obj
+            ).first()
+            return like.id if like else None
+        return None
 
     def validate_image(self, value):  # naming convention: 'validate_ + field name'
         # value is the uploaded image
@@ -36,5 +50,5 @@ class PostSerializer(serializers.ModelSerializer):
         fields = [
            'id', 'owner', 'is_owner', 'profile_id',
            'profile_image', 'created_at', 'updated_at',
-           'title', 'content', 'image', 'image_filter'
+           'title', 'content', 'image', 'image_filter', 'like_id'
         ]
