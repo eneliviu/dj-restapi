@@ -64,27 +64,26 @@ REST_AUTH_SERIALIZERS = {
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$pee69*^#acm@1altks^&^!n1p^=oh%yj=1%xpxji(pph7tpxj'
-# SECRET_KEY = os.getenv('SECRET_KEY')
+# SECRET_KEY = 'django-insecure-$pee69*^#acm@1altks^&^!n1p^=oh%yj=1%xpxji(pph7tpxj'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = False
 DEBUG = 'DEV' in os.environ
 
+ALLOWED_HOSTS = [
+    'localhost',
+    'https://*.127.0.0.1',
+    '.herokuapp.com',
+    'https://*.herokuapp.com',
+    'https://dj-drf-api-763634fa56e5.herokuapp.com/',
+    '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net'
+]
 
 # ALLOWED_HOSTS = [
-#     'localhost',
-#     'https://*.127.0.0.1',
-#     '.herokuapp.com',
-#     'https://*.herokuapp.com',
-#     'https://dj-drf-api-763634fa56e5.herokuapp.com/',
-#     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net'
+#    os.environ.get('ALLOWED_HOST'),
+#    'localhost',
 # ]
-
-ALLOWED_HOSTS = [
-   os.environ.get('ALLOWED_HOST'),
-   'localhost',
-]
 
 # Application definition
 
