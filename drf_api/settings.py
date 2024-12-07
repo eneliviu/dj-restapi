@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import re
 import dj_database_url
 # import cloudinary
 # import cloudinary.uploader
@@ -48,37 +49,42 @@ if 'DEV' not in os.environ:
         'rest_framework.renderers.JSONRenderer',
     ]
 
-
 REST_USE_JWT = True
 JWT_AUTH_SECURE = True
-JWT_AUTH_COOKIE = 'my-app-auth'  # access token
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'  # refresh token
+JWT_AUTH_COOKIE = 'my-app-auth'
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+JWT_AUTH_SAMESITE = 'None'
 
-# Override the default rest auth serializer
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
 }
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-$pee69*^#acm@1altks^&^!n1p^=oh%yj=1%xpxji(pph7tpxj'
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-$pee69*^#acm@1altks^&^!n1p^=oh%yj=1%xpxji(pph7tpxj'
+# SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = 'DEV' in os.environ
+# DEBUG = False
+DEBUG = 'DEV' in os.environ
 
+
+# ALLOWED_HOSTS = [
+#     'localhost',
+#     'https://*.127.0.0.1',
+#     '.herokuapp.com',
+#     'https://*.herokuapp.com',
+#     'https://dj-drf-api-763634fa56e5.herokuapp.com/',
+#     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net'
+# ]
 
 ALLOWED_HOSTS = [
-    'localhost',
-    'https://*.127.0.0.1',
-    '.herokuapp.com',
-    'https://*.herokuapp.com',
-    '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net'
+   os.environ.get('ALLOWED_HOST'),
+   'localhost',
 ]
-
 
 # Application definition
 
@@ -95,14 +101,12 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework.authtoken',
     'dj_rest_auth',
-
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     'corsheaders',
-
 
     'profiles',
     'posts',
@@ -114,6 +118,7 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -122,7 +127,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 if 'CLIENT_ORIGIN' in os.environ:
@@ -134,11 +138,13 @@ if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
          os.environ.get('CLIENT_ORIGIN')
         ]
-else:
-    # Enable sending cookies in cross-origin requests so that users can get 
-    # authentication functionality
+
+if 'CLIENT_ORIGIN_DEV' in os.environ:
+    extracted_url = re.match(
+        r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
+    ).group(0)
     CORS_ALLOWED_ORIGIN_REGEXES = [
-         r"^https:\/\/.*\.codeinstitute-ide\.net$",
+        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
     ]
 CORS_ALLOW_CREDENTIALS = True
 
