@@ -73,7 +73,9 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
-    'dj-drf-api.herokuapp.com',
+    'https://*.127.0.0.1',
+    '.herokuapp.com',
+    'https://*.herokuapp.com',
     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net'
 ]
 
