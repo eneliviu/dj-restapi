@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-import cloudinary
+import dj_database_url
+# import cloudinary
 # import cloudinary.uploader
 # import cloudinary.api
 
@@ -60,13 +61,19 @@ REST_AUTH_SERIALIZERS = {
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$pee69*^#acm@1altks^&^!n1p^=oh%yj=1%xpxji(pph7tpxj'
+# SECRET_KEY = 'django-insecure-$pee69*^#acm@1altks^&^!n1p^=oh%yj=1%xpxji(pph7tpxj'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = 'DEV' in os.environ
+
 
 ALLOWED_HOSTS = [
+    'localhost',
+    'dj-drf-api.herokuapp.com',
     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net'
 ]
 
@@ -92,6 +99,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
+    'corsheaders',
 
 
     'profiles',
@@ -112,7 +120,32 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+if 'CLIENT_ORIGIN' in os.environ:
+    # Here the allowed origins are set for the network requests made to the server.
+    # The API will use the CLIENT_ORIGIN variable, which is the front end app's url.
+    # We haven't deployed that project yet, but that's ok.
+    # If the variable is not present, the project is still in development, so then
+    # the regular expression in the else statement will allow requests that are coming from your IDE.
+    CORS_ALLOWED_ORIGINS = [
+         os.environ.get('CLIENT_ORIGIN')
+        ]
+else:
+    # Enable sending cookies in cross-origin requests so that users can get 
+    # authentication functionality
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+         r"^https:\/\/.*\.codeinstitute-ide\.net$",
+    ]
+CORS_ALLOW_CREDENTIALS = True
+
+
+# To be able to have the front end app and the API deployed to different platforms, 
+# set the JWT_AUTH_SAMESITE attribute to 'None'. Without this the cookies would be blocked
+JWT_AUTH_COOKIE = 'my-app-auth'
+JWT_AUTH_REFRESH_COOKE = 'my-refresh-token'
+JWT_AUTH_SAMESITE = 'None'
 
 ROOT_URLCONF = 'drf_api.urls'
 
@@ -138,12 +171,18 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'DEV' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+         'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+     }
+    # print('connected')
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.codeanyapp.com",
