@@ -47,6 +47,9 @@ REST_FRAMEWORK = {
     'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2,
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+   ),
 }
 
 if 'DEV' not in os.environ:
@@ -60,7 +63,7 @@ JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
-JWT_AUTH_HTTPONLY = False
+# JWT_AUTH_HTTPONLY = False
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
@@ -85,7 +88,8 @@ ALLOWED_HOSTS = [
     '.herokuapp.com',
     'https://*.herokuapp.com',
     'https://dj-drf-api-763634fa56e5.herokuapp.com/',
-    '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net'
+    '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
+    os.environ.get('ALLOWED_HOST'),
 ]
 
 # ALLOWED_HOSTS = [
@@ -155,7 +159,7 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
     # ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_ALL_ORIGINS = True
 
 # To be able to have the front end app and the API deployed to different platforms, 
 # set the JWT_AUTH_SAMESITE attribute to 'None'. Without this the cookies would be blocked
