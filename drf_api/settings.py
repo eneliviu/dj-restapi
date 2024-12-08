@@ -18,6 +18,11 @@ import dj_database_url
 # import cloudinary.uploader
 # import cloudinary.api
 
+#----------------------------------------------------------------#
+# HOT TO SET UP CORS:
+# https://github.com/adamchainz/django-cors-headers#configuration
+#----------------------------------------------------------------#
+
 
 if os.path.exists('env.py'):
     import env
@@ -145,7 +150,7 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
     # CORS_ALLOWED_ORIGIN_REGEXES = [
     #     rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
     # ]
-    
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True 
 
