@@ -80,7 +80,7 @@ DEBUG = 'DEV' in os.environ
 # To use the API with React app, add environment variables: ALLOWED_HOST and CLIENT_ORIGIN_DEV
 ALLOWED_HOSTS = [
     'localhost',
-    'react-dj-restapi-eb6a7149ec97.herokuapp.com/',
+    'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
     os.environ.get('ALLOWED_HOST'),
 ]
