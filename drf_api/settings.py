@@ -80,10 +80,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    'https://*.127.0.0.1',
+    'localhost',
     'https://*.herokuapp.com',
     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
-    os.environ.get('ALLOWED_HOST'),
+    # os.environ.get('ALLOWED_HOST'),
 ]
 
 # Application definition
@@ -135,19 +135,27 @@ if 'CLIENT_ORIGIN' in os.environ:
     # If the variable is not present, the project is still in development, so then
     # the regular expression in the else statement will allow requests that are coming from your IDE.
     CORS_ALLOWED_ORIGINS = [
-         os.environ.get('CLIENT_ORIGIN')
-        ]
+         os.environ.get('CLIENT_ORIGIN'),
+         'localhost',
 
-# if 'CLIENT_ORIGIN_DEV' in os.environ:
-#     extracted_url = re.match(
-#         r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
-#     ).group(0)
-#     # CORS_ALLOWED_ORIGIN_REGEXES = [
-#     #     rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-#     # ]
+        ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https:\/\/.*\.codeinstitute-ide\.net$",
+     ]
+
+if 'CLIENT_ORIGIN_DEV' in os.environ:
+    extracted_url = re.match(
+        r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
+    ).group(0)
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        # rf"{extracted_url}(eu|us)\d+\w\.codeinstitute-ide\.net$",
+        r"^https:\/\/.*\.codeinstitute-ide\.net$",
+    ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
+
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
