@@ -83,12 +83,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    'localhost',
-    'https://*.127.0.0.1',
-    'https://*.herokuapp.com',
+    'https://localhost',
     'https://dj-drf-api-763634fa56e5.herokuapp.com',
     'https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
-    '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
     os.environ.get('ALLOWED_HOST'),
 ]
 
