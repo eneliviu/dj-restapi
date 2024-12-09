@@ -134,7 +134,7 @@ if 'CLIENT_ORIGIN' in os.environ:
     # the regular expression in the else statement will allow requests that are coming from your IDE.
     CORS_ALLOWED_ORIGINS = [
          os.environ.get('CLIENT_ORIGIN'),
-         'localhost',
+         'https://*.127.0.0.1',
         ]
 else:
     # Enable sending cookies in cross-origin requests so that users can get authentication functionality
