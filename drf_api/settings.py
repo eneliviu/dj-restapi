@@ -138,19 +138,19 @@ if 'CLIENT_ORIGIN' in os.environ:
          'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
         ]
 
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(
-        r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
-    ).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        # rf"{extracted_url}(eu|us)\d+\w\.codeinstitute-ide\.net$",
-        r"^https:\/\/.*\.codeinstitute-ide\.net$",
-    ]
-
 # if 'CLIENT_ORIGIN_DEV' in os.environ:
+#     extracted_url = re.match(
+#         r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
+#     ).group(0)
 #     CORS_ALLOWED_ORIGIN_REGEXES = [
-#          r"^https:\/\/.*\.codeinstitute-ide\.net$",
+#         # rf"{extracted_url}(eu|us)\d+\w\.codeinstitute-ide\.net$",
+#         r"^https:\/\/.*\.codeinstitute-ide\.net$",
 #     ]
+
+if 'CLIENT_ORIGIN_DEV' in os.environ:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+         r"^https:\/\/.*\.codeinstitute-ide\.net$",
+    ]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
