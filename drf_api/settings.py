@@ -85,20 +85,14 @@ DEBUG = 'DEV' in os.environ
 ALLOWED_HOSTS = [
     'localhost',
     'https://*.127.0.0.1',
-    '.herokuapp.com',
     'https://*.herokuapp.com',
     'https://dj-drf-api-763634fa56e5.herokuapp.com',
+    'https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
-    # os.environ.get('ALLOWED_HOST'),
+    os.environ.get('ALLOWED_HOST'),
 ]
 
-# ALLOWED_HOSTS = [
-#    os.environ.get('ALLOWED_HOST'),
-#    'localhost',
-# ]
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -157,7 +151,6 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
     CORS_ALLOWED_ORIGIN_REGEXES = [
         rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
     ]
-    print(extracted_url)
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
@@ -214,10 +207,11 @@ else:
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.codeanyapp.com",
-    "https://*.codeinstitute-ide.net/",
+    "https://*.codeinstitute-ide.net",
     "https://*.herokuapp.com",
     'https://*.127.0.0.1',
-    "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net"
+    "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
+    "https://dj-drf-api-763634fa56e5.herokuapp.com",
     
 ]
 
