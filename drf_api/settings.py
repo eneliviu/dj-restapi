@@ -128,33 +128,32 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-if 'CLIENT_ORIGIN' in os.environ:
-    # Here the allowed origins are set for the network requests made to the server.
-    # The API will use the CLIENT_ORIGIN variable, which is the front end app's url.
-    # We haven't deployed that project yet, but that's ok.
-    # If the variable is not present, the project is still in development, so then
-    # the regular expression in the else statement will allow requests that are coming from your IDE.
-    CORS_ALLOWED_ORIGINS = [
-         os.environ.get('CLIENT_ORIGIN'),
-         'localhost',
+# if 'CLIENT_ORIGIN' in os.environ:
+#     # Here the allowed origins are set for the network requests made to the server.
+#     # The API will use the CLIENT_ORIGIN variable, which is the front end app's url.
+#     # We haven't deployed that project yet, but that's ok.
+#     # If the variable is not present, the project is still in development, so then
+#     # the regular expression in the else statement will allow requests that are coming from your IDE.
+#     CORS_ALLOWED_ORIGINS = [
+#          os.environ.get('CLIENT_ORIGIN'),
+#          'localhost',
+#         ]
+# else:
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         r"^https:\/\/.*\.codeinstitute-ide\.net$",
+#      ]
 
-        ]
-else:
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^https:\/\/.*\.codeinstitute-ide\.net$",
-     ]
-
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(
-        r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
-    ).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        # rf"{extracted_url}(eu|us)\d+\w\.codeinstitute-ide\.net$",
-        r"^https:\/\/.*\.codeinstitute-ide\.net$",
-    ]
+# if 'CLIENT_ORIGIN_DEV' in os.environ:
+#     extracted_url = re.match(
+#         r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
+#     ).group(0)
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         # rf"{extracted_url}(eu|us)\d+\w\.codeinstitute-ide\.net$",
+#         r"^https:\/\/.*\.codeinstitute-ide\.net$",
+#     ]
 
 CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_METHODS = [
     'DELETE',
