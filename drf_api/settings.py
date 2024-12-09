@@ -150,17 +150,25 @@ MIDDLEWARE = [
 #          os.environ.get('CLIENT_ORIGIN')
 #         ]
 
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(
-        r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
-    ).group(0)
-    # CORS_ALLOWED_ORIGIN_REGEXES = [
-    #     rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    # ]
+# if 'CLIENT_ORIGIN_DEV' in os.environ:
+#     extracted_url = re.match(
+#         r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
+#     ).group(0)
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+#     ]
+#     print(extracted_url)
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
-
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 # To be able to have the front end app and the API deployed to different platforms, 
 # set the JWT_AUTH_SAMESITE attribute to 'None'. Without this the cookies would be blocked
 JWT_AUTH_COOKIE = 'my-app-auth'
