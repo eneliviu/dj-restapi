@@ -87,9 +87,9 @@ ALLOWED_HOSTS = [
     'https://*.127.0.0.1',
     '.herokuapp.com',
     'https://*.herokuapp.com',
-    'https://dj-drf-api-763634fa56e5.herokuapp.com/',
+    'https://dj-drf-api-763634fa56e5.herokuapp.com',
     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
-    os.environ.get('ALLOWED_HOST'),
+    # os.environ.get('ALLOWED_HOST'),
 ]
 
 # ALLOWED_HOSTS = [
