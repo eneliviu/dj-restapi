@@ -47,9 +47,6 @@ REST_FRAMEWORK = {
     'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2,
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAdminUser',
-   ),
 }
 
 if 'DEV' not in os.environ:
@@ -86,7 +83,7 @@ ALLOWED_HOSTS = [
     'https://localhost',
     'https://dj-drf-api-763634fa56e5.herokuapp.com',
     'https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
-    os.environ.get('ALLOWED_HOST'),
+    # os.environ.get('ALLOWED_HOST'),
 ]
 
 # Application definition
@@ -145,9 +142,9 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
     extracted_url = re.match(
         r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
     ).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
+    # CORS_ALLOWED_ORIGIN_REGEXES = [
+    #     rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+    # ]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
