@@ -81,7 +81,6 @@ DEBUG = False
 ALLOWED_HOSTS = [
     'localhost',
     'dj-drf-api-763634fa56e5.herokuapp.com',
-    # 'https://dj-drf-api-763634fa56e5.herokuapp.com'
     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
     # os.environ.get('ALLOWED_HOST'),
 ]
@@ -143,13 +142,18 @@ else:
         r"^https:\/\/.*\.codeinstitute-ide\.net$",
     ]
 
+# if 'CLIENT_ORIGIN_DEV' in os.environ:
+#     extracted_url = re.match(
+#         r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
+#     ).group(0)
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         # rf"{extracted_url}(eu|us)\d+\w\.codeinstitute-ide\.net$",
+#         r"^https:\/\/.*\.codeinstitute-ide\.net$",
+#     ]
+
 if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(
-        r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
-    ).group(0)
     CORS_ALLOWED_ORIGIN_REGEXES = [
-        # rf"{extracted_url}(eu|us)\d+\w\.codeinstitute-ide\.net$",
-        r"^https:\/\/.*\.codeinstitute-ide\.net$",
+         r"^https:\/\/.*\.codeinstitute-ide\.net$",
     ]
 
 CORS_ALLOW_CREDENTIALS = True
