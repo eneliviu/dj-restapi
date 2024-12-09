@@ -47,6 +47,10 @@ REST_FRAMEWORK = {
     'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2,
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
+    
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
 }
 
 if 'DEV' not in os.environ:
