@@ -84,7 +84,6 @@ ALLOWED_HOSTS = [
     '.herokuapp.com',
     'https://*.herokuapp.com',
     'https://*.127.0.0.1',
-    # os.environ.get('ALLOWED_HOST'),
 ]
 
 # Application definition
@@ -155,7 +154,7 @@ MIDDLEWARE = [
 #     ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOW_METHODS = [
     'DELETE',
