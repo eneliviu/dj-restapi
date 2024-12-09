@@ -79,8 +79,8 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
-    'dj-drf-api-763634fa56e5.herokuapp.com/',
-    # '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
+    'dj-drf-api-763634fa56e5.herokuapp.com',
+    '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
     # os.environ.get('ALLOWED_HOST'),
 ]
 
