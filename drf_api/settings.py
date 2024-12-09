@@ -18,10 +18,10 @@ import dj_database_url
 # import cloudinary.uploader
 # import cloudinary.api
 
-#----------------------------------------------------------------#
+# ----------------------------------------------------------------#
 # HOT TO SET UP CORS:
 # https://github.com/adamchainz/django-cors-headers#configuration
-#----------------------------------------------------------------#
+# ----------------------------------------------------------------#
 
 
 if os.path.exists('env.py'):
@@ -81,9 +81,9 @@ DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
     'localhost',
-    'https://*.herokuapp.com',
+    'dj-drf-api-763634fa56e5.herokuapp.com/',
     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
-    # os.environ.get('ALLOWED_HOST'),
+    os.environ.get('ALLOWED_HOST'),
 ]
 
 # Application definition
