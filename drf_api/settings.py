@@ -47,10 +47,6 @@ REST_FRAMEWORK = {
     'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2,
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
-    
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
 }
 
 if 'DEV' not in os.environ:
@@ -80,13 +76,15 @@ JWT_AUTH_SAMESITE = 'None'
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False
-DEBUG = 'DEV' in os.environ
 
-# To use the API with React app, add environment variables: ALLOWED_HOST and CLIENT_ORIGIN_DEV
+DEBUG = True
+# DEBUG = 'DEV' in os.environ
+
+# To use the API with React app, add environment variables: ALLOWED_HOST and CLIENT_ORIGIN_DEV in heroku
 ALLOWED_HOSTS = [
     '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
     'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
+    'https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
     '.herokuapp.com',
     'https://*.herokuapp.com',
     'https://*.127.0.0.1',
@@ -143,6 +141,7 @@ if 'CLIENT_ORIGIN' in os.environ:
          os.environ.get('CLIENT_ORIGIN'),
          'https://*.127.0.0.1',
          'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
+         'https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
         ]
 
 # if 'CLIENT_ORIGIN_DEV' in os.environ:
@@ -200,18 +199,18 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-if 'DEV' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+# if 'DEV' in os.environ:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    DATABASES = {
-         'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-     }
-    # print('connected')
+}
+# else:
+#     DATABASES = {
+#          'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+#      }
+#     print('connected')
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.codeinstitute-ide.net",

@@ -20,12 +20,14 @@ from .views import root_route, logout_route
 urlpatterns = [
     path('', root_route),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
+    path('api-auth/', include('rest_framework.urls')),  # login
     # our logout route has to be above the default one to be matched first
     path('dj-rest-auth/logout/', logout_route),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
+
+    # registration
     path(
-        'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')
+        'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls') 
     ),
     path('', include('profiles.urls')),
     path('', include('posts.urls')),
