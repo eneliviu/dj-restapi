@@ -66,8 +66,6 @@ JWT_AUTH_SAMESITE = 'None'
 
 # JWT_AUTH_HTTPONLY = False
 
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -155,22 +153,12 @@ if 'CLIENT_ORIGIN' in os.environ:
 
 if 'CLIENT_ORIGIN_DEV' in os.environ:
     CORS_ALLOWED_ORIGIN_REGEXES = [
-         r"^https:\/\/.*\.codeinstitute-ide\.net$",
+        r"^https:\/\/.*\.codeinstitute-ide\.net$",
     ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = False
+# CORS_ALLOW_ALL_ORIGINS = False
 
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
-# To be able to have the front end app and the API deployed to different platforms, 
-# set the JWT_AUTH_SAMESITE attribute to 'None'. Without this the cookies would be blocked
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'  # Allow the frontend app and the API deployed to different platforms
@@ -200,13 +188,12 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 if 'DEV' in os.environ:
-    
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-}
+    }
 else:
     DATABASES = {
          'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
