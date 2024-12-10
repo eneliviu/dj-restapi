@@ -29,8 +29,7 @@ if os.path.exists('env.py'):
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-# DEBUG = False
-DEBUG = 'DEV' in os.environ
+DEBUG = 'DEV' in os.environ  # Bool
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
@@ -53,32 +52,21 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
 }
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         # 'rest_framework.authentication.BasicAuthentication',
-#         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-#         # 'rest_framework.authentication.SessionAuthentication'
-#         'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
-#     ),
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#     'PAGE_SIZE': 2,
-#     'DATETIME_FORMAT': '%d %b %Y'
-# }
-
-if 'DEV' not in os.environ:
-    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
+# if 'DEV' not in os.environ:
+REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
         'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 
 REST_USE_JWT = True
-
 JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+JWT_AUTH_SAMESITE = 'None'
+
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
 }
-JWT_AUTH_SAMESITE = 'None'
 
 # JWT_AUTH_HTTPONLY = False
 
@@ -97,6 +85,7 @@ ALLOWED_HOSTS = [
     '.herokuapp.com',
     'https://*.herokuapp.com',
     'https://*.127.0.0.1',
+    'localhost',
 ]
 
 # Application definition
@@ -142,16 +131,19 @@ MIDDLEWARE = [
 ]
 
 if 'CLIENT_ORIGIN' in os.environ:
-    # Here the allowed origins are set for the network requests made to the server.
     # The API will use the CLIENT_ORIGIN variable, which is the front end app's url.
     # If the variable is not present, the project is still in development, so then
     # the regular expression in the else statement will allow requests that are coming from your IDE.
     CORS_ALLOWED_ORIGINS = [
-         os.environ.get('CLIENT_ORIGIN'),
-         'https://*.127.0.0.1',
-         'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
-         'https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
+        os.environ.get('CLIENT_ORIGIN'),
+        # 'https://*.127.0.0.1',
+        # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
+        # 'https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
         ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https:\/\/.*\.codeinstitute-ide\.net$",
+    ]
 
 # if 'CLIENT_ORIGIN_DEV' in os.environ:
 #     extracted_url = re.match(
@@ -172,7 +164,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKE = 'my-refresh-token'
-JWT_AUTH_SAMESITE = 'None'  # Allow the frontend app and the API deployed to different platforms
+JWT_AUTH_SAMESITE = 'None'  # Frontend and the API on different platforms
 
 ROOT_URLCONF = 'drf_api.urls'
 
@@ -198,18 +190,14 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# if 'DEV' in os.environ:
 DATABASES = {
-    'default': {
+    'default': ({
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    } if 'DEV' in os.environ else dj_database_url.parse(
+        os.environ.get('DATABASE_URL')
+    ))
 }
-# else:
-#     DATABASES = {
-#          'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-#      }
-#     print('connected')
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.codeinstitute-ide.net",
@@ -255,8 +243,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
