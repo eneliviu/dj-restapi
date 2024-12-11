@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken import views
 from .views import root_route, logout_route
-from .views import CustomObtainAuthToken
 
 # from rest_framework_simplejwt.views import (
 #     TokenObtainPairView,
@@ -34,8 +34,9 @@ urlpatterns = [
     path(
         'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls') 
     ),
-    path('api-auth/authenticate', CustomObtainAuthToken.as_view()),
     
+    path("api-token-auth/",  views.obtain_auth_token),
+
     path('', include('profiles.urls')),
     path('', include('posts.urls')),
     path('', include('comments.urls')),

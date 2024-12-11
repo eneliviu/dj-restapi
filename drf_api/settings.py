@@ -64,8 +64,6 @@ REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
         # 'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 
-
-
 REST_USE_JWT = True
 JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'jwt-access-token'  # 'my-app-auth'
@@ -75,6 +73,7 @@ JWT_AUTH_SAMESITE = 'None'
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
 }
+
 
 LOGIN_REDIRECT_URL = '/'
 
