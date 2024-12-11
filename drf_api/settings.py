@@ -60,7 +60,7 @@ if 'DEV' not in os.environ:
         # 'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 
-REST_USE_JWT = True
+# REST_USE_JWT = True
 JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'jwt-access-token'  # 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
