@@ -44,7 +44,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
-        'rest_framework.authentication.SessionAuthentication'
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        # 'rest_framework.authentication.SessionAuthentication'
         if 'DEV' in os.environ
         else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'  # 'rest_framework.authentication.TokenAuthentication'
     )],
@@ -60,9 +61,9 @@ if 'DEV' not in os.environ:
         # 'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 
-# REST_USE_JWT = True
+REST_USE_JWT = True
 JWT_AUTH_SECURE = True
-JWT_AUTH_COOKIE = 'jwt-access-token'  # 'my-app-auth'
+JWT_AUTH_COOKIE = 'my-app-auth'  # 'jwt-access-token'  cookie name
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
@@ -74,7 +75,6 @@ JWT_AUTH_SAMESITE = 'None'
 REST_AUTH = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
 }
-
 
 
 LOGIN_REDIRECT_URL = '/'
