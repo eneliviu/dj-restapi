@@ -20,17 +20,22 @@ from .views import root_route, logout_route
 urlpatterns = [
     path('', root_route),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),  # login
+
+    # For session authentication in the web browsable API interface
+    path('api-auth/', include('rest_framework.urls')), 
+    
     # our logout route has to be above the default one to be matched first
     path('dj-rest-auth/logout/', logout_route),
+
+    # `dj_rest_auth` provides authentication endpoints, 
+    # the login path is typically `dj-rest-auth/login/`
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
+
     path(
         'dj-rest-auth/registration/',
         include('dj_rest_auth.registration.urls')
     ),
     
-    # path("api-token-auth/",  auth_views.obtain_auth_token),
-
     path('', include('profiles.urls')),
     path('', include('posts.urls')),
     path('', include('comments.urls')),

@@ -29,9 +29,11 @@ import dj_database_url
 if os.path.exists('env.py'):
     import env
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = 'DEV' in os.environ  # Bool
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True  # 'DEV' in os.environ  # Bool
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
@@ -39,14 +41,13 @@ CLOUDINARY_STORAGE = {
 MEDIA_URL = '/media/'  # or any prefix you choose
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
-        # 'rest_framework.authentication.SessionAuthentication'
-        if 'DEV' in os.environ
+        # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        'rest_framework.authentication.SessionAuthentication'
+        if DEBUG  #'DEV' in os.environ
         else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'  # 'rest_framework.authentication.TokenAuthentication'
     )],
     'DEFAULT_PAGINATION_CLASS':
@@ -55,15 +56,16 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
 }
 
-if 'DEV' not in os.environ:
+# if 'DEV' not in os.environ:
+if not DEBUG:
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
         'rest_framework.renderers.JSONRenderer',
         # 'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 
 REST_USE_JWT = True
-JWT_AUTH_SECURE = True
-JWT_AUTH_COOKIE = 'my-app-auth'  # 'jwt-access-token'  cookie name
+JWT_AUTH_SECURE = False if DEBUG else True
+JWT_AUTH_COOKIE = 'jwt-auth'  # 'my-app-auth'  # 'jwt-access-token'  cookie name
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
@@ -88,13 +90,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # To use the API with React app, add environment variables: ALLOWED_HOST and CLIENT_ORIGIN_DEV in heroku
 ALLOWED_HOSTS = [
-    '8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
-    'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
-    'https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
-    '.herokuapp.com',
-    'https://*.herokuapp.com',
-    'https://*.127.0.0.1',
     'localhost',
+    '127.0.0.1',
+    "8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
+    '3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
 ]
 
 # Application definition
@@ -118,6 +117,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'corsheaders',
 
+    # Own applications
     'profiles',
     'posts',
     'comments',
@@ -128,10 +128,11 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -139,20 +140,38 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-if 'CLIENT_ORIGIN' in os.environ:
-    # The API will use the CLIENT_ORIGIN variable, which is the front end app's url.
-    # If the variable is not present, the project is still in development, so then
-    # the regular expression in the else statement will allow requests that are coming from your IDE.
-    CORS_ALLOWED_ORIGINS = [
-        os.environ.get('CLIENT_ORIGIN'),
-        # 'https://*.127.0.0.1',
-        # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
-        # 'https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
-        ]
-else:
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^https:\/\/.*\.codeinstitute-ide\.net$",
-    ]
+# if 'CLIENT_ORIGIN' in os.environ:  # For Heroku deployment only
+# The API will use the CLIENT_ORIGIN variable, which is the front end app's url.
+# If the variable is not present, the project is still in development, so then
+# the regular expression in the else statement will allow requests that are coming from your IDE.
+CORS_ALLOWED_ORIGINS = [
+    # os.environ.get('CLIENT_ORIGIN'),
+    # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
+    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
+]
+# else:
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         # r"^https:\/\/.*\.codeinstitute-ide\.net$"
+#         r"^https://\w+\.codeinstitute-ide\.net$",
+#     ]
+
+# Allow All Origins for Debug:
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_HEADERS = (
+       "accept",
+       "accept-encoding",
+       "authorization",
+       "content-type",
+       "dnt",
+       "origin",
+       "user-agent",
+       "x-csrftoken",
+       "x-requested-with",
+)
+
+# For development environment to allow everything temporarily, 
+
 
 # if 'CLIENT_ORIGIN_DEV' in os.environ:
 #     extracted_url = re.match(
@@ -163,16 +182,15 @@ else:
 #         r"^https:\/\/.*\.codeinstitute-ide\.net$",
 #     ]
 
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^https:\/\/.*\.codeinstitute-ide\.net$",
-    ]
+# For Heroku deployment:
+# if 'CLIENT_ORIGIN_DEV' in os.environ:
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         r"^https:\/\/.*\.codeinstitute-ide\.net$",
+#     ]
 
 CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOW_ALL_ORIGINS = False
 
-
-JWT_AUTH_REFRESH_COOKE = 'my-refresh-token'
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'  # Frontend and the API on different platforms
 
 ROOT_URLCONF = 'drf_api.urls'
@@ -199,20 +217,17 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# Database Configuration
 DATABASES = {
-    'default': ({
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    } if 'DEV' in os.environ else dj_database_url.parse(
-        os.environ.get('DATABASE_URL')
-    ))
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3' if DEBUG else 'django.db.backends.postgresql',
+        'NAME': BASE_DIR / 'db.sqlite3' if DEBUG else dj_database_url.parse(os.getenv('DATABASE_URL'))
+    }
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.codeinstitute-ide.net",
-    "https://*.herokuapp.com",
-    'https://*.127.0.0.1',
     "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
+    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
 ]
 
 # Password validation
