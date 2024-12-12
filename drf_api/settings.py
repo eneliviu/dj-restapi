@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 import re
 import dj_database_url
-
+from corsheaders.defaults import default_headers
 
 # import cloudinary
 # import cloudinary.uploader
@@ -41,14 +41,12 @@ CLOUDINARY_STORAGE = {
 MEDIA_URL = '/media/'  # or any prefix you choose
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
         # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
         'rest_framework.authentication.SessionAuthentication'
-        if DEBUG  #'DEV' in os.environ
-        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'  # 'rest_framework.authentication.TokenAuthentication'
+        if DEBUG  # 'DEV' in os.environ
+        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
     )],
     'DEFAULT_PAGINATION_CLASS':
     'rest_framework.pagination.PageNumberPagination',
@@ -108,6 +106,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'django_filters',
     'rest_framework',
+    'corsheaders',
     'rest_framework.authtoken',
     'dj_rest_auth',
     'django.contrib.sites',
@@ -115,7 +114,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
-    'corsheaders',
+   
 
     # Own applications
     'profiles',
@@ -128,7 +127,6 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
-
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
@@ -144,11 +142,13 @@ MIDDLEWARE = [
 # The API will use the CLIENT_ORIGIN variable, which is the front end app's url.
 # If the variable is not present, the project is still in development, so then
 # the regular expression in the else statement will allow requests that are coming from your IDE.
-CORS_ALLOWED_ORIGINS = [
-    # os.environ.get('CLIENT_ORIGIN'),
-    # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
-    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
-]
+
+# CORS_ALLOWED_ORIGINS = [
+#     # os.environ.get('CLIENT_ORIGIN'),
+#     # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
+#     "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
+# ]
+
 # else:
 #     CORS_ALLOWED_ORIGIN_REGEXES = [
 #         # r"^https:\/\/.*\.codeinstitute-ide\.net$"
@@ -156,19 +156,35 @@ CORS_ALLOWED_ORIGINS = [
 #     ]
 
 # Allow All Origins for Debug:
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_HEADERS = (
-       "accept",
-       "accept-encoding",
-       "authorization",
-       "content-type",
-       "dnt",
-       "origin",
-       "user-agent",
-       "x-csrftoken",
-       "x-requested-with",
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 )
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:8000",
+    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net"
+)
+
 
 # For development environment to allow everything temporarily, 
 
