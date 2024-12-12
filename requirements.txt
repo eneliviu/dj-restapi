@@ -8,6 +8,7 @@ django-allauth==65.3.0
 django-cloudinary-storage==0.3.0
 django-cors-headers==4.6.0
 django-filter==24.3
+django-sslserver==0.12
 djangorestframework==3.15.2
 djangorestframework-simplejwt==5.3.1
 gunicorn==23.0.0
