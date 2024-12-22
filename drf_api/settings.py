@@ -46,7 +46,8 @@ REST_FRAMEWORK = {
         # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
         'rest_framework.authentication.SessionAuthentication'
         if DEBUG  # 'DEV' in os.environ
-        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        # else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        else 'dj_rest_auth.jwt_auth.JWTAuthentication'
     )],
     'DEFAULT_PAGINATION_CLASS':
     'rest_framework.pagination.PageNumberPagination',
@@ -54,18 +55,11 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
 }
 
-# if 'DEV' not in os.environ:
-if not DEBUG:
-    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
-        'rest_framework.renderers.JSONRenderer',
-        # 'rest_framework.renderers.BrowsableAPIRenderer',
-    ]
-
-# REST_USE_JWT = True
-JWT_AUTH_SECURE = False if DEBUG else True
-JWT_AUTH_COOKIE = 'my-app-auth'  # 'jwt-auth' 'jwt-access-token'  cookie name
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-JWT_AUTH_SAMESITE = 'None'
+REST_USE_JWT = True
+# JWT_AUTH_SECURE = False if DEBUG else True
+# JWT_AUTH_COOKIE = 'my-app-auth'  # 'jwt-auth' 'jwt-access-token'  cookie name
+# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+# JWT_AUTH_SAMESITE = 'None'
 
 # REST_AUTH_SERIALIZERS = {
 #     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
@@ -141,11 +135,11 @@ MIDDLEWARE = [
 # If the variable is not present, the project is still in development, so then
 # the regular expression in the else statement will allow requests that are coming from your IDE.
 
-CORS_ALLOWED_ORIGINS = [
-    # os.environ.get('CLIENT_ORIGIN'),
-    # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
-    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     # os.environ.get('CLIENT_ORIGIN'),
+#     # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
+#     "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net"
+# ]
 
 # else:
 #     CORS_ALLOWED_ORIGIN_REGEXES = [
@@ -155,7 +149,7 @@ CORS_ALLOWED_ORIGINS = [
 
 # Allow All Origins for Debug:
 CORS_ALLOW_ORIGINS_ALL = True
-# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -192,7 +186,7 @@ CORS_ALLOW_METHODS = [
 #     ]
 
 
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 # JWT_AUTH_SAMESITE = 'None'  # Frontend and the API on different platforms
 
 ROOT_URLCONF = 'drf_api.urls'
