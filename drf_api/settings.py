@@ -61,9 +61,9 @@ if not DEBUG:
         # 'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 
-REST_USE_JWT = True
+# REST_USE_JWT = True
 JWT_AUTH_SECURE = False if DEBUG else True
-JWT_AUTH_COOKIE = 'jwt-auth'  # 'my-app-auth'  # 'jwt-access-token'  cookie name
+JWT_AUTH_COOKIE = 'my-app-auth'  # 'jwt-auth' 'jwt-access-token'  cookie name
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
@@ -88,8 +88,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # To use the API with React app, add environment variables: ALLOWED_HOST and CLIENT_ORIGIN_DEV in heroku
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
     "8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
     '3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
 ]
@@ -114,7 +112,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
-   
 
     # Own applications
     'profiles',
@@ -127,10 +124,11 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -143,11 +141,11 @@ MIDDLEWARE = [
 # If the variable is not present, the project is still in development, so then
 # the regular expression in the else statement will allow requests that are coming from your IDE.
 
-# CORS_ALLOWED_ORIGINS = [
-#     # os.environ.get('CLIENT_ORIGIN'),
-#     # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
-#     "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
-# ]
+CORS_ALLOWED_ORIGINS = [
+    # os.environ.get('CLIENT_ORIGIN'),
+    # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
+    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
+]
 
 # else:
 #     CORS_ALLOWED_ORIGIN_REGEXES = [
@@ -156,19 +154,8 @@ MIDDLEWARE = [
 #     ]
 
 # Allow All Origins for Debug:
-CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ALLOW_HEADERS = (
-    "accept",
-    "accept-encoding",
-    "authorization",
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-)
+CORS_ALLOW_ORIGINS_ALL = True
+# CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -180,10 +167,10 @@ CORS_ALLOW_METHODS = [
 ]
 
 
-CORS_ORIGIN_WHITELIST = (
-    "http://localhost:8000",
-    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net"
-)
+# CORS_ORIGIN_WHITELIST = (
+#     "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
+#     "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net"
+# )
 
 
 # For development environment to allow everything temporarily, 
@@ -204,10 +191,9 @@ CORS_ORIGIN_WHITELIST = (
 #         r"^https:\/\/.*\.codeinstitute-ide\.net$",
 #     ]
 
-CORS_ALLOW_CREDENTIALS = True
 
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-JWT_AUTH_SAMESITE = 'None'  # Frontend and the API on different platforms
+# JWT_AUTH_SAMESITE = 'None'  # Frontend and the API on different platforms
 
 ROOT_URLCONF = 'drf_api.urls'
 
