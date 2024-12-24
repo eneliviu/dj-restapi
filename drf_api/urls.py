@@ -1,9 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 from .views import root_route, logout_route
 
 urlpatterns = [
@@ -29,7 +27,7 @@ urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
    
     # our logout route has to be above the default one to be matched first
-    path('dj-rest-auth/logout/', logout_route),
+    # path('dj-rest-auth/logout/', LogoutView.as_view(), name='rest_logout'),
 
     path(
         'dj-rest-auth/registration/',
