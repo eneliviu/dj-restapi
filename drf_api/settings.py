@@ -33,7 +33,7 @@ if os.path.exists('env.py'):
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # 'DEV' in os.environ  # Bool
+DEBUG = False  # 'DEV' in os.environ  # Bool
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
@@ -130,9 +130,9 @@ SITE_ID = 1
 MIDDLEWARE = [
 
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -193,6 +193,7 @@ CORS_ALLOW_CREDENTIALS = True
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'  # Frontend and the API on different platforms
 
+
 ROOT_URLCONF = 'drf_api.urls'
 
 TEMPLATES = [
@@ -218,11 +219,15 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # Database Configuration
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3' if DEBUG else 'django.db.backends.postgresql',
+#         'NAME': BASE_DIR / 'db.sqlite3' if DEBUG else dj_database_url.parse(os.getenv('DATABASE_URL'))
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3' if DEBUG else 'django.db.backends.postgresql',
-        'NAME': BASE_DIR / 'db.sqlite3' if DEBUG else dj_database_url.parse(os.getenv('DATABASE_URL'))
-    }
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
 CSRF_TRUSTED_ORIGINS = [
