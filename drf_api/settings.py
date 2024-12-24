@@ -221,7 +221,7 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3' if DEBUG else 'django.db.backends.postgresql',
-#         'NAME': BASE_DIR / 'db.sqlite3' if DEBUG else dj_database_url.parse(os.getenv('DATABASE_URL'))
+#         'NAME': BASE_DIR / 'db.sqlite3' if DEBUG else dj_database_url.config(os.getenv('DATABASE_URL'))
 #     }
 # }
 
@@ -232,6 +232,7 @@ DATABASES = {
 CSRF_TRUSTED_ORIGINS = [
     "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
     "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
+    "https://react-frontend-api-b166a083b609.herokuapp.com/signup"
 ]
 
 # Password validation
