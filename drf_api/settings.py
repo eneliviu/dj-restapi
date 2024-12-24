@@ -86,6 +86,7 @@ ALLOWED_HOSTS = [
     '3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
     '127.0.0.1',
     'localhost',
+    'dj-drf-api-763634fa56e5.herokuapp.com'
 ]
 
 # Application definition
