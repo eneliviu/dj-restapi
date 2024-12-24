@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 import re
 import dj_database_url
-
+from corsheaders.defaults import default_headers
 
 # import cloudinary
 # import cloudinary.uploader
@@ -41,14 +41,13 @@ CLOUDINARY_STORAGE = {
 MEDIA_URL = '/media/'  # or any prefix you choose
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
         # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
         'rest_framework.authentication.SessionAuthentication'
-        if DEBUG  #'DEV' in os.environ
-        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'  # 'rest_framework.authentication.TokenAuthentication'
+        if DEBUG  # 'DEV' in os.environ
+        # else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        else 'dj_rest_auth.jwt_auth.JWTAuthentication'
     )],
     'DEFAULT_PAGINATION_CLASS':
     'rest_framework.pagination.PageNumberPagination',
@@ -56,18 +55,11 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
 }
 
-# if 'DEV' not in os.environ:
-if not DEBUG:
-    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
-        'rest_framework.renderers.JSONRenderer',
-        # 'rest_framework.renderers.BrowsableAPIRenderer',
-    ]
-
 REST_USE_JWT = True
-JWT_AUTH_SECURE = False if DEBUG else True
-JWT_AUTH_COOKIE = 'jwt-auth'  # 'my-app-auth'  # 'jwt-access-token'  cookie name
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-JWT_AUTH_SAMESITE = 'None'
+# JWT_AUTH_SECURE = False if DEBUG else True
+# JWT_AUTH_COOKIE = 'my-app-auth'  # 'jwt-auth' 'jwt-access-token'  cookie name
+# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+# JWT_AUTH_SAMESITE = 'None'
 
 # REST_AUTH_SERIALIZERS = {
 #     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
@@ -90,10 +82,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # To use the API with React app, add environment variables: ALLOWED_HOST and CLIENT_ORIGIN_DEV in heroku
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
     "8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
     '3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
+    '127.0.0.1',
+    'localhost',
 ]
 
 # Application definition
@@ -108,6 +100,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'django_filters',
     'rest_framework',
+    'corsheaders',
     'rest_framework.authtoken',
     'dj_rest_auth',
     'django.contrib.sites',
@@ -115,7 +108,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
-    'corsheaders',
 
     # Own applications
     'profiles',
@@ -144,11 +136,13 @@ MIDDLEWARE = [
 # The API will use the CLIENT_ORIGIN variable, which is the front end app's url.
 # If the variable is not present, the project is still in development, so then
 # the regular expression in the else statement will allow requests that are coming from your IDE.
-CORS_ALLOWED_ORIGINS = [
-    # os.environ.get('CLIENT_ORIGIN'),
-    # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
-    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
-]
+
+# CORS_ALLOWED_ORIGINS = [
+#     # os.environ.get('CLIENT_ORIGIN'),
+#     # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
+#     "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net"
+# ]
+
 # else:
 #     CORS_ALLOWED_ORIGIN_REGEXES = [
 #         # r"^https:\/\/.*\.codeinstitute-ide\.net$"
@@ -156,19 +150,24 @@ CORS_ALLOWED_ORIGINS = [
 #     ]
 
 # Allow All Origins for Debug:
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ORIGINS_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOW_HEADERS = (
-       "accept",
-       "accept-encoding",
-       "authorization",
-       "content-type",
-       "dnt",
-       "origin",
-       "user-agent",
-       "x-csrftoken",
-       "x-requested-with",
-)
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+
+# CORS_ORIGIN_WHITELIST = (
+#     "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
+#     "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net"
+# )
+
 
 # For development environment to allow everything temporarily, 
 
@@ -188,10 +187,9 @@ CORS_ALLOW_HEADERS = (
 #         r"^https:\/\/.*\.codeinstitute-ide\.net$",
 #     ]
 
-CORS_ALLOW_CREDENTIALS = True
 
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-JWT_AUTH_SAMESITE = 'None'  # Frontend and the API on different platforms
+# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+# JWT_AUTH_SAMESITE = 'None'  # Frontend and the API on different platforms
 
 
 ROOT_URLCONF = 'drf_api.urls'
