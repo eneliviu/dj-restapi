@@ -33,7 +33,7 @@ if os.path.exists('env.py'):
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # 'DEV' in os.environ  # Bool
+DEBUG = True  # 'DEV' in os.environ  # Bool
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
@@ -55,7 +55,7 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
 }
 
-REST_USE_JWT = True
+# REST_USE_JWT = True
 # JWT_AUTH_SECURE = False if DEBUG else True
 # JWT_AUTH_COOKIE = 'my-app-auth'  # 'jwt-auth' 'jwt-access-token'  cookie name
 # JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
