@@ -33,7 +33,7 @@ if os.path.exists('env.py'):
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # 'DEV' in os.environ  # Bool
+DEBUG = False  # 'DEV' in os.environ  # Bool
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
