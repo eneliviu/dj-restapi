@@ -24,7 +24,7 @@ urlpatterns = [
         name='token_refresh'
     ),
 
-    # `dj_rest_auth` provides authentication endpoints, 
+    # `dj_rest_auth` provides authentication endpoints
     # the login path is typically `dj-rest-auth/login/`
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
    

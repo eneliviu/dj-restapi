@@ -66,9 +66,9 @@ REST_AUTH_SERIALIZERS = {
 }
 
 
-REST_AUTH = {
-    'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
-}
+# REST_AUTH = {
+#     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
+# }
 
 
 LOGIN_REDIRECT_URL = '/'
@@ -151,8 +151,12 @@ MIDDLEWARE = [
 #     ]
 
 # Allow All Origins for Debug:
-CORS_ALLOW_ORIGINS_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'https://react-frontend-api-b166a083b609.herokuapp.com',
+]
+
+# CORS_ALLOW_ORIGINS_ALL = True
+# CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = [
     "DELETE",
