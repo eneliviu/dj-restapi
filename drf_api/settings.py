@@ -46,7 +46,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication'
         if DEBUG
-        else 'rest_framework_simplejwt.authentication.JWTAuthentication'
+        # else 'rest_framework_simplejwt.authentication.JWTAuthentication'
+        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -55,6 +56,11 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 2,
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
 }
+
+if not DEBUG:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
+        'rest_framework.renderers.JSONRenderer',
+    ]
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
@@ -153,6 +159,12 @@ MIDDLEWARE = [
 # If the variable is not present, the project is still in development, so then
 # the regular expression in the else statement will allow requests that are coming from your IDE.
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
+    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
+    "https://react-frontend-api-b166a083b609.herokuapp.com/signup"
+]
+
 CORS_ALLOWED_ORIGINS = [
     os.environ.get('CLIENT_ORIGIN'),
     'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
@@ -171,7 +183,6 @@ CORS_ALLOWED_ORIGINS = [
 #     'https://react-frontend-api-b166a083b609.herokuapp.com',
 # ]
 
-# CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
@@ -179,10 +190,6 @@ CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 #     "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
 #     "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net"
 # )
-
-
-# For development environment to allow everything temporarily, 
-
 
 # if 'CLIENT_ORIGIN_DEV' in os.environ:
 #     extracted_url = re.match(
@@ -240,11 +247,6 @@ DATABASES = {
     'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
-    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
-    "https://react-frontend-api-b166a083b609.herokuapp.com/signup"
-]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
