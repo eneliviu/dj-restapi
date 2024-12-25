@@ -1,6 +1,14 @@
 ###
-
 GET https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net/ HTTP/1.1
+
 
 ###
 GET https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net/profiles/ HTTP/1.1
+
+
+
+###
+GET http://127.0.0.1:8000/ HTTP/1.1
+
+###
+GET http://127.0.0.1:8000/profiles/ HTTP/1.1

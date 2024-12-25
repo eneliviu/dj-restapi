@@ -46,12 +46,12 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication'
         if DEBUG
-        # else 'rest_framework_simplejwt.authentication.JWTAuthentication'
-        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        else 'rest_framework_simplejwt.authentication.JWTAuthentication'
+        # else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2,
     'DATETIME_FORMAT': '%d %b %Y',  # day, month abbrev, year 4 digits
@@ -70,25 +70,25 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True,
 }
 
-# CSRF_COOKIE_SAMESITE = 'None'
-# SESSION_COOKIE_SAMESITE = 'None'
-# CSRF_COOKIE_SECURE = True  # Always use Secure with SameSite=None
-# SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True  # Always use Secure with SameSite=None
+SESSION_COOKIE_SECURE = True
 
-# REST_USE_JWT = True
-# JWT_AUTH_SECURE = False if DEBUG else True
-# JWT_AUTH_COOKIE = 'my-app-auth'  # 'jwt-auth' 'jwt-access-token'  cookie name
-# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-# JWT_AUTH_SAMESITE = 'None'
+REST_USE_JWT = True
+JWT_AUTH_SECURE = False if DEBUG else True
+JWT_AUTH_COOKIE = 'my-app-auth'  # 'jwt-auth' 'jwt-access-token'  cookie name
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+JWT_AUTH_SAMESITE = 'None'
 
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
-}
-
-
-# REST_AUTH = {
+# REST_AUTH_SERIALIZERS = {
 #     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
 # }
+
+
+REST_AUTH = {
+    'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
+}
 
 
 LOGIN_REDIRECT_URL = '/'
@@ -167,12 +167,15 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    os.environ.get('CLIENT_ORIGIN'),
     'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
     'https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
     'https://react-frontend-api-b166a083b609.herokuapp.com',
     'https://dj-drf-api-763634fa56e5.herokuapp.com'
 ]
+
+client_origin = os.environ.get('CLIENT_ORIGIN')
+if client_origin:
+    CORS_ALLOWED_ORIGINS.append(client_origin)
 
 # else:
 #     CORS_ALLOWED_ORIGIN_REGEXES = [
