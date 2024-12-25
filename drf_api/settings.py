@@ -153,11 +153,12 @@ MIDDLEWARE = [
 # If the variable is not present, the project is still in development, so then
 # the regular expression in the else statement will allow requests that are coming from your IDE.
 
-# CORS_ALLOWED_ORIGINS = [
-#     # os.environ.get('CLIENT_ORIGIN'),
-#     # 'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
-#     "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net"
-# ]
+CORS_ALLOWED_ORIGINS = [
+    os.environ.get('CLIENT_ORIGIN'),
+    'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
+    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
+    "https://react-frontend-api-b166a083b609.herokuapp.com"
+]
 
 # else:
 #     CORS_ALLOWED_ORIGIN_REGEXES = [
@@ -170,8 +171,8 @@ MIDDLEWARE = [
 #     'https://react-frontend-api-b166a083b609.herokuapp.com',
 # ]
 
-CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
 # CORS_ORIGIN_WHITELIST = (
