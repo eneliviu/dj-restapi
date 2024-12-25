@@ -70,10 +70,10 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True,
 }
 
-CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SAMESITE = 'None'
-CSRF_COOKIE_SECURE = True  # Always use Secure with SameSite=None
-SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SAMESITE = 'None'
+# SESSION_COOKIE_SAMESITE = 'None'
+# CSRF_COOKIE_SECURE = True  # Always use Secure with SameSite=None
+# SESSION_COOKIE_SECURE = True
 
 # REST_USE_JWT = True
 # JWT_AUTH_SECURE = False if DEBUG else True
@@ -185,7 +185,7 @@ CORS_ALLOWED_ORIGINS = [
 #     'https://react-frontend-api-b166a083b609.herokuapp.com',
 # ]
 
-# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
 # CORS_ORIGIN_WHITELIST = (
