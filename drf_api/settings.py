@@ -169,8 +169,9 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ALLOWED_ORIGINS = [
     os.environ.get('CLIENT_ORIGIN'),
     'https://react-dj-restapi-eb6a7149ec97.herokuapp.com',
-    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
-    "https://react-frontend-api-b166a083b609.herokuapp.com"
+    'https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
+    'https://react-frontend-api-b166a083b609.herokuapp.com',
+    'https://dj-drf-api-763634fa56e5.herokuapp.com'
 ]
 
 # else:
