@@ -185,7 +185,7 @@ CORS_ALLOWED_ORIGINS = [
 #     'https://react-frontend-api-b166a083b609.herokuapp.com',
 # ]
 
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
 # CORS_ORIGIN_WHITELIST = (
