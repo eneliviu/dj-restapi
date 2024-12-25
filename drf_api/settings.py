@@ -160,9 +160,10 @@ MIDDLEWARE = [
 # the regular expression in the else statement will allow requests that are coming from your IDE.
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
-    "https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net",
-    "https://react-frontend-api-b166a083b609.herokuapp.com/signup"
+    'https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net',
+    'https://3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
+    'https://react-frontend-api-b166a083b609.herokuapp.com/signup'
+    'https://dj-drf-api-763634fa56e5.herokuapp.com'
 ]
 
 CORS_ALLOWED_ORIGINS = [
