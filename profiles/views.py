@@ -3,7 +3,6 @@ from django.db.models import Count
 from rest_framework import generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_api.permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import IsAuthenticated
 from .models import Profile
 from .serializers import ProfileSerializer
 
@@ -14,7 +13,6 @@ class ProfileList(generics.ListAPIView):
     No create view as profile creation is handled by django signals.
     """
     serializer_class = ProfileSerializer
-    # permission_classes = [IsAuthenticated]
     queryset = Profile.objects.annotate(
         posts_count=Count('owner__post', distinct=True),  # how many posts an user has using Count()
         followers_count=Count('owner__followed', distinct=True),

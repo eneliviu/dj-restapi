@@ -22,25 +22,28 @@ if os.path.exists('env.py'):
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # 'DEV' in os.environ  # Bool
+DEBUG = False
 # DEBUG is False - the authentication token will be stored in cookies
 # rather than being passed in the Authorization header.
 
+CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
 CLOUDINARY_STORAGE = {
-    'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
+    'CLOUDINARY_URL': CLOUDINARY_URL
 }
 MEDIA_URL = '/media/'  # or any prefix you choose
+MEDIA_URL = os.environ.get('MEDIA_URL')
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication'
-        # 'rest_framework.authentication.SessionAuthentication'
-        # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        'rest_framework.authentication.SessionAuthentication'
         if DEBUG
         else 'rest_framework_simplejwt.authentication.JWTAuthentication'
-        # 'dj_rest_auth.jwt_auth.JWTAuthentication'
+        # else 'dj_rest_auth.jwt_auth.JWTAuthentication'
     ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2,
     'DATETIME_FORMAT': '%d %b %Y',
@@ -55,46 +58,42 @@ if not DEBUG:
 SIMPLE_JWT = {
     'ALGORITHM': 'HS256',  # Common choice
     'AUTH_COOKIE': 'jwt-auth',
-    'AUTH_COOKIE_SECURE': False,  # for local dev not DEBUG,
+    'AUTH_COOKIE_SECURE': not DEBUG,  # for local dev False, True for production
     'AUTH_COOKIE_HTTP_ONLY': True,
     'AUTH_COOKIE_PATH': '/',
     'AUTH_COOKIE_SAMESITE': 'Lax',
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('Bearer',),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': True,
+    'UPDATE_LAST_LOGIN': True,  # Update last_login field on token issue
 }
 
-SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SECURE = False  # for local dev not DEBUG
+if not DEBUG:
+    REST_USE_JWT = True
 
-CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = not DEBUG  # False for local dev, True for production
+
+CSRF_USE_SESSIONS = True
+CSRF_COOKIE_HTTPONLY = False  # Must be False for frontend access
 CSRF_COOKIE_SAMESITE = 'Lax'
-CSRF_COOKIE_SECURE = False  # for local dev not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG  # False for local dev, True for production
+
 
 # PRODUCTION SETTINGS
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
 
-CSRF_USE_SESSIONS = True
-
-REST_USE_JWT = True
-
 # JWT_AUTH_SECURE = False if DEBUG else True
-# JWT_AUTH_COOKIE = 'my-app-auth'  # 'jwt-auth' 'jwt-access-token'  cookie name
+# JWT_AUTH_COOKIE = 'my-app-auth'
 # JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 # JWT_AUTH_SAMESITE = 'None'
 
-REST_AUTH_SERIALIZERS = {
+REST_AUTH = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
 }
-
-
-# REST_AUTH = {
-#     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
-# }
-
 
 LOGIN_REDIRECT_URL = '/'
 
@@ -105,7 +104,7 @@ LOGIN_REDIRECT_URL = '/'
 # SECRET_KEY = 'django-insecure-$pee69*^#acm@1altks^&^!n1p^=oh%yj=1%xpxji(pph7tpxj'
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-# To use the API with React app, add environment variables: ALLOWED_HOST and CLIENT_ORIGIN_DEV in heroku
+# To use the API with React app: ALLOWED_HOST and CLIENT_ORIGIN_DEV in heroku
 ALLOWED_HOSTS = [
     "8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
     '3000-eneliviu-reactdjrestapi-dm7huyvlcum.ws.codeinstitute-ide.net',
@@ -121,9 +120,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+
     'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
+
     'django_filters',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
@@ -147,11 +148,10 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
-    
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -196,9 +196,6 @@ CSRF_TRUSTED_ORIGINS = [
 # CORS_ALLOWED_ORIGINS = [
 #     'https://react-frontend-api-b166a083b609.herokuapp.com',
 # ]
-
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
 # CORS_ORIGIN_WHITELIST = (
 #     "https://8000-eneliviu-djrestapi-vo4ia7gx81e.ws.codeinstitute-ide.net",
@@ -305,7 +302,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
