@@ -251,14 +251,14 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 #     }
 # }
 
-if DEBUG:
+if not DEBUG:  # Production
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': dj_database_url.config(os.getenv('DATABASE_URL'))
         }
     }
-else:
+else:  # Development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
