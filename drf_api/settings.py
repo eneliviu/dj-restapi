@@ -244,27 +244,27 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # Database Configuration
+# if not DEBUG:  # Production
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3' if DEBUG else 'django.db.backends.postgresql',
-#         'NAME': BASE_DIR / 'db.sqlite3' if DEBUG else dj_database_url.config(os.getenv('DATABASE_URL'))
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': dj_database_url.config(os.getenv('DATABASE_URL'))
 #     }
 # }
 
-if not DEBUG:  # Production
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': dj_database_url.config(os.getenv('DATABASE_URL'))
-        }
-    }
-else:  # Development
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL")
+    )
+}
+
+# else:  # Development
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
