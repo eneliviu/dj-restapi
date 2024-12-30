@@ -309,4 +309,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Set the maximum file upload size to 10 MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB in bytes
 
+# Set the maximum request body size to 10 MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB in bytes
+
+# Define a custom maximum upload size for use in validation
+MAX_UPLOAD_SIZE = 10485760  # 10 MB in bytes
