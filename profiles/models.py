@@ -40,7 +40,7 @@ class Profile(models.Model):
     # )
     image = CloudinaryField(
         'image',
-        default='https://res.cloudinary.com/dchoskzxj/image/upload/v1734719974/hvc6gc5ikhagzoytuq3k',
+        default='https://res.cloudinary.com/dchoskzxj/image/upload/v1721990160/yg9qwd4v15r23bxwv5u4',
         # default="../v1734719974/hvc6gc5ikhagzoytuq3k",
         blank=True,
         null=True
