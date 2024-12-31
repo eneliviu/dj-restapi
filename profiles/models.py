@@ -33,15 +33,10 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255, blank=True)  # optional
     content = models.TextField(blank=True)  # optional
-    # image = models.ImageField(
-    #     blank=True,
-    #     null=True,
-    #     default="../hvc6gc5ikhagzoytuq3k"
-    # )
     image = CloudinaryField(
         'image',
-        # default='https://res.cloudinary.com/dchoskzxj/image/upload/v1721990160/yg9qwd4v15r23bxwv5u4',
-        default="v1734719974/hvc6gc5ikhagzoytuq3k",
+        # default='https://res.cloudinary.com/dchoskzxj/image/upload/v1721990160/yg9qwd4v15r23bxwv5u4.jpg',
+        default="yg9qwd4v15r23bxwv5u4",
         blank=True,
         null=True
     )

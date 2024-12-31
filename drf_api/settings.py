@@ -31,7 +31,7 @@ CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': CLOUDINARY_URL
 }
 MEDIA_URL = '/media/'  # or any prefix you choose
-MEDIA_URL = os.environ.get('MEDIA_URL')
+# MEDIA_URL = os.environ.get('MEDIA_URL')
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 REST_FRAMEWORK = {
@@ -41,9 +41,6 @@ REST_FRAMEWORK = {
         else 'rest_framework_simplejwt.authentication.JWTAuthentication'
         # else 'dj_rest_auth.jwt_auth.JWTAuthentication'
     ],
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2,
     'DATETIME_FORMAT': '%d %b %Y',
@@ -245,26 +242,28 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 
 # Database Configuration
 # if not DEBUG:  # Production
+#     DATABASES = {
+#         'default': dj_database_url.config(
+#             default=os.environ.get("DATABASE_URL")
+#         )
+#     }
+# else:  # Development
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': dj_database_url.config(os.getenv('DATABASE_URL'))
+#         'NAME': 'slain_width_foil_697205',
+#         'USER': 'neondb_owner', # 'neondb_owner',
+#         'PASSWORD': 'FrE7wgto6xzY', # 'FrE7wgto6xzY',
+#         'HOST': 'ep-silent-bonus-a200j5x5.eu-central-1.aws.neon.tech', # 'ep-silent-bonus-a200j5x5.eu-central-1.aws.neon.tech', 
+#         'PORT': '5432',
 #     }
 # }
-
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL")
-    )
-}
-
-# else:  # Development
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
-#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

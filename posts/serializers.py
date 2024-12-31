@@ -8,23 +8,17 @@ class PostSerializer(serializers.ModelSerializer):
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
+    # profile_image = serializers.URLField(
+    #     source='owner.profile.image.url',
+    #     read_only=True
+    # )
     like_id = serializers.SerializerMethodField()
-    comments_count = serializers.ReadOnlyField()
     likes_count = serializers.ReadOnlyField()
+    comments_count = serializers.ReadOnlyField()
+    image = serializers.ImageField()
 
-    def get_like_id(self, obj):
-        # check if the user is authenticated
-        user = self.context['request'].user
-        if user.is_authenticated:
-            # check if the user likes the post 
-            like = Like.objects.filter(
-                owner=user,
-                post=obj
-            ).first()
-            return like.id if like else None
-        return None
-
-    def validate_image(self, value):  # naming convention: 'validate_ + field name'
+    # naming convention: 'validate_ + field name'
+    def validate_image(self, value):
         # value is the uploaded image
         if value.size > 1024 * 1024 * 2:  # 2MB size limit
             raise serializers.ValidationError(
@@ -44,14 +38,23 @@ class PostSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.owner
 
+    def get_like_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            like = Like.objects.filter(
+                owner=user, post=obj
+            ).first()
+            return like.id if like else None
+        return None
+
     class Meta:
         model = Post
         # When extending Django model class using models.Model,
         # the 'id' field is created automatically. If we want it to be
         # included into response, we have to add it to the serializes's fields array
         fields = [
-           'id', 'owner', 'is_owner', 'profile_id',
-           'profile_image', 'created_at', 'updated_at',
-           'title', 'content', 'image', 'image_filter', 'like_id',
-           'comments_count', 'likes_count'
+            'id', 'owner', 'is_owner', 'profile_id',
+            'profile_image', 'created_at', 'updated_at',
+            'title', 'content', 'image', 'image_filter',
+            'like_id', 'likes_count', 'comments_count',
         ]
