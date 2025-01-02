@@ -30,8 +30,6 @@ class Post(models.Model):
     content = models.TextField(blank=True)
     image = CloudinaryField(
         'image',
-        # default='https://res.cloudinary.com/dchoskzxj/image/upload/v1721990160/jwpt7ilopzwvyvtc9vb1.jpg',
-        # default="jwpt7ilopzwvyvtc9vb1",
         blank=True,
         null=True
     )

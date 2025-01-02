@@ -35,12 +35,13 @@ MEDIA_URL = '/media/'  # or any prefix you choose
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 REST_FRAMEWORK = {
+
+    #  JWT authentication takes precedence when DEBUG=False
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication'
-        if DEBUG
-        else 'rest_framework_simplejwt.authentication.JWTAuthentication'
-        # else 'dj_rest_auth.jwt_auth.JWTAuthentication'
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
+
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2,
     'DATETIME_FORMAT': '%d %b %Y',
@@ -115,9 +116,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
 
+    'cloudinary',
     'cloudinary_storage',
     'django.contrib.staticfiles',
-    'cloudinary',
 
     'django_filters',
     'rest_framework',

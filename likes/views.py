@@ -16,6 +16,7 @@ class LikeList(generics.ListCreateAPIView):
 
     # Set the user creating the like as its owner
     def perform_create(self, serializer):
+        print("like owner: ", self.request.user)
         serializer.save(owner=self.request.user)
 
 

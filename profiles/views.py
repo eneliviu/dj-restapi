@@ -1,5 +1,5 @@
 
-from django.db.models import Count
+from django.db.models import Count  # Count model instances
 from rest_framework import generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_api.permissions import IsOwnerOrReadOnly
@@ -14,10 +14,11 @@ class ProfileList(generics.ListAPIView):
     """
     serializer_class = ProfileSerializer
     queryset = Profile.objects.annotate(
-        posts_count=Count('owner__post', distinct=True),  # how many posts an user has using Count()
-        followers_count=Count('owner__followed', distinct=True),
-        following_count=Count('owner__following', distinct=True)
-    ).order_by('-created_at')
+        posts_count=Count('owner__post', distinct=True),  # how many posts an user has
+        followers_count=Count('owner__followed', distinct=True),  # no of users following a profile
+        following_count=Count('owner__following', distinct=True)  # no of profiles a profile owner is following
+    ).order_by('-created_at')  # newest profiles first
+
     filter_backends = [
         filters.OrderingFilter,
         DjangoFilterBackend,
@@ -42,7 +43,7 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = ProfileSerializer
     queryset = Profile.objects.annotate(
-        posts_count=Count('owner__post', distinct=True),  # how many posts an user has using Count()
-        followers_count=Count('owner__followed', distinct=True),
-        following_count=Count('owner__following', distinct=True)
+        posts_count=Count('owner__post', distinct=True),  # how many posts an user has
+        followers_count=Count('owner__followed', distinct=True),  # no of users following a profile
+        following_count=Count('owner__following', distinct=True)  # no of profiles a profile owner is following
     ).order_by('-created_at')
