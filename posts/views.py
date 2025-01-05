@@ -7,17 +7,36 @@ from drf_api.permissions import IsOwnerOrReadOnly
 from posts.models import Post
 from posts.serializers import PostSerializer
 
+
 class PostFilter(FilterSet):
     liked_by_user = BooleanFilter(method='filter_liked_by_user')
+    user_posts = BooleanFilter(method='filter_post_by_profile')
+    current_user_posts = BooleanFilter(method='filter_current_user_posts')
+    followed_users = BooleanFilter(method='filter_followed_users')
+
+    def filter_current_user_posts(self, queryset, name, value):
+        user = self.request.user
+        if value and user.is_authenticated:
+            return queryset.filter(owner=user)
+        return queryset
 
     class Meta:
         model = Post
-        fields = ['liked_by_user']
+        fields = ['liked_by_user', 'user_posts', 'current_user_posts']
 
     def filter_liked_by_user(self, queryset, name, value):
         user = self.request.user
         if value and user.is_authenticated:
             return queryset.filter(likes__owner=user)
+        return queryset
+
+    def filter_post_by_profile(self, queryset, name, value):
+        return queryset.filter(owner__profile=value)
+    
+    def filter_followed_users(self, queryset, name, value):
+        user = self.request.user
+        if value and user.is_authenticated:
+            return queryset.filter(owner__followed__owner=user)
         return queryset
 
 
@@ -35,7 +54,7 @@ class PostList(generics.ListCreateAPIView):
     ).order_by('-created_at')
 
     filterset_class = PostFilter
-  
+
     filter_backends = [
         filters.OrderingFilter,
         filters.SearchFilter,
@@ -47,6 +66,9 @@ class PostList(generics.ListCreateAPIView):
         'likes__owner__profile',
         'owner__profile',
         'liked_by_user',
+        'user_posts',
+        'current_user_posts',
+        'followed_users'
     ]
 
     search_fields = [
