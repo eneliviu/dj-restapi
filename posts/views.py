@@ -32,7 +32,7 @@ class PostFilter(FilterSet):
 
     def filter_post_by_profile(self, queryset, name, value):
         return queryset.filter(owner__profile=value)
-    
+
     def filter_followed_users(self, queryset, name, value):
         user = self.request.user
         if value and user.is_authenticated:
